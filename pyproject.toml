@@ -20,6 +20,7 @@ dependencies = [
     "yarg==0.1.10",
     "opencv-python>=4.11.0.86",
     "numpy>=2.3.4",
+    "mcp[cli]>=1.21.0",
 ]
 
 [dependency-groups]
