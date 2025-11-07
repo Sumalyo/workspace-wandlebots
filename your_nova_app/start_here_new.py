@@ -32,6 +32,13 @@ import struct
 import time
 import platform as platform_module
 import sys
+controller_name="urdatta10"
+#controller_name="ur5e"
+
+#Todo
+# The grip and relese functions are reversed and not working
+# Calibration of poses needed again
+
 
 # --- THIS IS THE PART YOU CONFIGURE ---
 ACCESS_KEY_windows = "s5KKYJPIv04/59FCvVZ5TdPdeXAmlFd/HEQnRDP/BfFQTDAckHUhvg==" 
@@ -140,7 +147,8 @@ def audio_process(pcm):
     preconditions=ProgramPreconditions(
         controllers=[
             virtual_controller(
-                name="ur5e",
+                #name="ur5e",
+                name=controller_name,
                 manufacturer=api.models.Manufacturer.UNIVERSALROBOTS,
                 type=api.models.VirtualControllerTypes.UNIVERSALROBOTS_MINUS_UR5E,
             )
@@ -153,7 +161,7 @@ async def start():
     """Main robot control function."""
     async with Nova() as nova:
         cell = nova.cell()
-        controller = await cell.controller("ur5e")
+        controller = await cell.controller(controller_name)
         cycle = Cycle(cell=cell, extra={"program": "start_here"})
 
         slow = MotionSettings(tcp_velocity_limit=50)
@@ -162,8 +170,6 @@ async def start():
             home_joints = await motion_group.joints()
             tcp_names = await motion_group.tcp_names()
             tcp = tcp_names[0]
-
-            # call llm
 
             # Define poses
 

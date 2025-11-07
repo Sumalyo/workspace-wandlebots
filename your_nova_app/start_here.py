@@ -14,7 +14,7 @@ from wandelbots_api_client import models as wbmodels
     preconditions=ProgramPreconditions(
         controllers=[
             virtual_controller(
-                name="ur5e",
+                name="urdatta10",
                 manufacturer=wbmodels.Manufacturer.UNIVERSALROBOTS,
                 type=wbmodels.VirtualControllerTypes.UNIVERSALROBOTS_MINUS_UR5E,
             )
@@ -27,7 +27,7 @@ async def start():
     """Main robot control function."""
     async with Nova() as nova:
         cell = nova.cell()
-        controller = await cell.controller("ur5e")
+        controller = await cell.controller("urdatta10")
 
         async with controller[0] as motion_group:
             home_joints = await motion_group.joints()
