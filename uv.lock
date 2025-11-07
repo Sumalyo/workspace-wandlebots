@@ -445,6 +445,12 @@ wheels = [
 ]
 
 [[package]]
+name = "docopt"
+version = "0.6.2"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/a2/55/8f8cab2afd404cf578136ef2cc5dfb50baa1761b68c9da1fb1e4eed343c9/docopt-0.6.2.tar.gz", hash = "sha256:49b3a825280bd66b3aa83585ef59c4a8c82f2c8a522dbe754a8bc8d08c85c491", size = 25901, upload-time = "2014-06-16T11:18:57.406Z" }
+
+[[package]]
 name = "docstring-parser"
 version = "0.17.0"
 source = { registry = "https://pypi.org/simple" }
@@ -928,6 +934,19 @@ wheels = [
 ]
 
 [[package]]
+name = "pipreqs"
+version = "0.4.13"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "docopt" },
+    { name = "yarg" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/96/71/b6749742c33fabb2c8b3a1a2e128548ee09c36c9070137104dd5eb2010ea/pipreqs-0.4.13.tar.gz", hash = "sha256:a17f167880b6921be37533ce4c81ddc6e22b465c107aad557db43b1add56a99b", size = 47595, upload-time = "2023-04-14T07:10:25.429Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/d9/ea/74c89d786cf3403bfbf8fb70142fdf501af9517d0bb8c1acce3ee5ab613e/pipreqs-0.4.13-py2.py3-none-any.whl", hash = "sha256:e522b9ed54aa3e8b7978ff251ab7a9af2f75d2cd8de4c102e881b666a79a308e", size = 33201, upload-time = "2023-04-14T07:10:23.248Z" },
+]
+
+[[package]]
 name = "propcache"
 version = "0.4.1"
 source = { registry = "https://pypi.org/simple" }
@@ -1009,6 +1028,33 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/cb/ef/3c6ecf8b317aa982f309835e8f96987466123c6e596646d4e6a1dfcd080f/propcache-0.4.1-cp314-cp314t-win_amd64.whl", hash = "sha256:990f6b3e2a27d683cb7602ed6c86f15ee6b43b1194736f9baaeb93d0016633b1", size = 46259, upload-time = "2025-10-08T19:48:34.226Z" },
     { url = "https://files.pythonhosted.org/packages/c4/2d/346e946d4951f37eca1e4f55be0f0174c52cd70720f84029b02f296f4a38/propcache-0.4.1-cp314-cp314t-win_arm64.whl", hash = "sha256:ecef2343af4cc68e05131e45024ba34f6095821988a9d0a02aa7c73fcc448aa9", size = 40428, upload-time = "2025-10-08T19:48:35.441Z" },
     { url = "https://files.pythonhosted.org/packages/5b/5a/bc7b4a4ef808fa59a816c17b20c4bef6884daebbdf627ff2a161da67da19/propcache-0.4.1-py3-none-any.whl", hash = "sha256:af2a6052aeb6cf17d3e46ee169099044fd8224cbaf75c76a2ef596e8163e2237", size = 13305, upload-time = "2025-10-08T19:49:00.792Z" },
+]
+
+[[package]]
+name = "pvporcupine"
+version = "3.0.5"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/f8/ac/14c64255c08db0b80315ccc940943fad5fea03f0006b09b45f0b83ced08d/pvporcupine-3.0.5.tar.gz", hash = "sha256:48f92ab10a904b811e69afb18175d2bd4857ccec8be094f42449961a80fa2af1", size = 2535302, upload-time = "2025-02-05T18:37:33.808Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/c4/9e/4716d4737a4a6a3de306c97f3cd6040e66ef23ad8b6b8fca80190dbcc3ad/pvporcupine-3.0.5-py3-none-any.whl", hash = "sha256:b80b31a38b1a622e492e19683f60efdcddd1662204830fcad50df90f01723356", size = 2544202, upload-time = "2025-02-05T18:37:30.898Z" },
+]
+
+[[package]]
+name = "pvrecorder"
+version = "1.2.7"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/7b/93/972f2500bca8e2b7807f2c6232504df4f1b82db546e42fdd2de109b98032/pvrecorder-1.2.7.tar.gz", hash = "sha256:f60b2174bff317c4349a916f59b5e71914a120f8313a9458f9ee25b89a800c75", size = 4128384, upload-time = "2025-03-28T20:53:21.841Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/f6/4c/b1706065a9b52efa9a23e3822076b8916de2ff26036b6ff1474d90f95c95/pvrecorder-1.2.7-py3-none-any.whl", hash = "sha256:72c44be78069be92a602b0dfad42fbdc62b536f47c151e62076ee49ba877dfb0", size = 4131531, upload-time = "2025-03-28T20:53:19.662Z" },
+]
+
+[[package]]
+name = "pvrhino"
+version = "3.0.5"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/2d/13/b5cee1a632af10a6cbee5313969cd4d8619c41f121896f69f6a755066de3/pvrhino-3.0.5.tar.gz", hash = "sha256:01698dd6320427168f3a7c4b4376a08c75a6b03a76a0a1cacb96a5114b64faed", size = 3186205, upload-time = "2025-02-06T00:31:12.537Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/25/cc/9e19f6363661f5ca24fa707168d25f6feeb0cd6b389781c5c78fac364097/pvrhino-3.0.5-py3-none-any.whl", hash = "sha256:bbb4cac565d114aff710b5fcc0fb85a712c706c68bf03912935e59ea1c88e8a3", size = 3185339, upload-time = "2025-02-06T00:31:10.051Z" },
 ]
 
 [[package]]
@@ -1538,6 +1584,18 @@ wheels = [
 ]
 
 [[package]]
+name = "yarg"
+version = "0.1.10"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "requests" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/5f/f4/86a394ac2c74268c0281d27b6ca9a37bb595d19601bf4de920584e581eb6/yarg-0.1.10.tar.gz", hash = "sha256:1fbc94af89d5ebc2d2dfe46a5006a570de549c43e78f0913ce8390a1c5848b7e", size = 12869, upload-time = "2024-08-09T21:42:05.203Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/6c/98/63ca46066218f5438e47db7149a515b80b77bdeb30e3644da6221dac43dc/yarg-0.1.10-py2.py3-none-any.whl", hash = "sha256:4413145825e5d0e8b370754b3e829cf7c95ab0131dbc29fb5b52a8e27e1b7234", size = 13762, upload-time = "2024-08-09T21:42:03.697Z" },
+]
+
+[[package]]
 name = "yarl"
 version = "1.22.0"
 source = { registry = "https://pypi.org/simple" }
@@ -1636,9 +1694,19 @@ name = "your-nova-app"
 version = "0.0.1"
 source = { virtual = "." }
 dependencies = [
+    { name = "certifi" },
+    { name = "charset-normalizer" },
+    { name = "docopt" },
+    { name = "idna" },
+    { name = "pipreqs" },
+    { name = "pvporcupine" },
+    { name = "pvrecorder" },
+    { name = "pvrhino" },
     { name = "python-decouple" },
     { name = "requests" },
+    { name = "urllib3" },
     { name = "wandelbots-nova", extra = ["nova-rerun-bridge", "novax"] },
+    { name = "yarg" },
 ]
 
 [package.dev-dependencies]
@@ -1648,9 +1716,19 @@ dev = [
 
 [package.metadata]
 requires-dist = [
+    { name = "certifi", specifier = "==2025.10.5" },
+    { name = "charset-normalizer", specifier = "==3.4.4" },
+    { name = "docopt", specifier = "==0.6.2" },
+    { name = "idna", specifier = "==3.11" },
+    { name = "pipreqs", specifier = "==0.4.13" },
+    { name = "pvporcupine", specifier = "==3.0.5" },
+    { name = "pvrecorder", specifier = "==1.2.7" },
+    { name = "pvrhino", specifier = "==3.0.5" },
     { name = "python-decouple", specifier = "~=3.8" },
-    { name = "requests", specifier = ">=2.32.3,<3" },
+    { name = "requests", specifier = "==2.32.5" },
+    { name = "urllib3", specifier = "==2.5.0" },
     { name = "wandelbots-nova", extras = ["novax", "nova-rerun-bridge"], specifier = ">=3.5.3,<4" },
+    { name = "yarg", specifier = "==0.1.10" },
 ]
 
 [package.metadata.requires-dev]
