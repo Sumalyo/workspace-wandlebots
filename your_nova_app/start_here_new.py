@@ -190,6 +190,8 @@ async def start():
 
             # Choose item
             target_pose_name = available_items["fanta"].pop(0)
+            #hardcode for testing we need to get this from voice command
+            #also show an error if pop fails and inventory is empty
             target_pose = poses[target_pose_name]
 
             
