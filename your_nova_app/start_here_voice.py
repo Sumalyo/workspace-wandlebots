@@ -48,10 +48,10 @@ COMMAND_CONTEXT_PATH_macbook = "/Users/sumalyodatta/Local Work/Wanlebots/workspa
 # Robot poses
 start_pose = Pose((102.9, -505.6, 483.4, -1.496, -2.5662, 0.0903))
 coke0 = Pose((56.8, -304.2, 323.7, 2.7788, -1.4014, 0.011))
-coke1 = Pose((56.8, -304.2, 323.7, 2.7788, -1.4014, 0.011))
-redbull0 = Pose((-64.4, -484.6, 332.3, 2.7873, -1.4154, 0.0118))
-redbull1 = Pose((-74.2, -606.2, 334.7, 2.7871, -1.4156, -0.0122))
-fanta0 = Pose((35.8, -313.2, 333.9, 2.7879, -1.4062, 0.0075))
+coke1 = Pose((56.8, -387.9, 323.7, 2.7788, -1.4013, 0.0111))
+redbull0 = Pose((-30, -297.8, 320.9, 2.7793, -1.401, 0.0113))
+redbull1 = Pose((-29, -385.3, 320.9, 2.779, -1.4015, 0.011))
+fanta0 = Pose((-119.5, -387.7, 321, 2.7789, -1.4012, 0.011)) #new!!
 customer = Pose((103.9, -699.5, 631.4, 1.2941, 2.558, -0.8835))
 
 # Inventory: maps beverage name to list of available poses
