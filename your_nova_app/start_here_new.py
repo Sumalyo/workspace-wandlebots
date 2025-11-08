@@ -32,8 +32,9 @@ import struct
 import time
 import platform as platform_module
 import sys
-controller_name="urdatta10"
-#controller_name="ur5e"
+from nova.core.controller import Controller 
+#controller_name="urdatta10"
+controller_name="ur5e"
 
 #Todo
 # The grip and relese functions are reversed and not working
@@ -54,8 +55,9 @@ COMMAND_CONTEXT_PATH_macbook = "/Users/sumalyodatta/Local Work/Wanlebots/workspa
 # --- END CONFIGURATION ---
 
 start_pose = Pose((102.9, -505.6, 483.4, -1.496, -2.5662, 0.0903))
-coke0 = Pose((-170.6, -609.6, 340, 2.7917, -1.4176, -0.0117))
-coke1 = Pose((-162.3, -501.4, 334.1, 2.7916, -1.4181, -0.0115))
+#coke0 = Pose((57.6, -300.9, 312.6, 2.7865, -1.4056, 0.0077))
+coke0 = Pose((56.8, -304.2, 323.7, 2.7788, -1.4014, 0.011))
+coke1 = Pose((58, -389, 312.8, 2.7859, -1.4053, 0.0077))
 redbull0 = Pose((-64.4, -484.6, 332.3, 2.7873, -1.4154, 0.0118))
 redbull1 = Pose((-74.2, -606.2, 334.7, 2.7871, -1.4156, -0.0122))
 fanta0 = Pose((35.8, -313.2, 333.9, 2.7879, -1.4062, 0.0075)) #new!!
@@ -140,6 +142,38 @@ def audio_process(pcm):
             print("\nReady for next command...\n")
 
 # Configure the robot program
+
+
+
+# async def open_grippers(controller: Controller):
+#     """Function to open the grippers."""
+#     await controller.write("tool_out[1]", False)
+#     await controller.write("tool_out[0]", True)
+#     await asyncio.sleep(2.0)
+
+# async def close_grippers(controller : Controller):
+#     """Function to close the grippers."""
+#     await controller.write("tool_out[0]", False)
+#     await controller.write("tool_out[1]", True)
+#     await asyncio.sleep(2.0)
+
+async def initialize_grippers(controller):
+    """Function to initialize the grippers to open state."""
+    await controller.write("tool_out[0]", True)
+    await controller.write("tool_out[1]", False)
+    await controller.write("tool_out[0]", False)
+
+async def close_grippers(controller):
+    # Activate gripper (close)
+    await controller.write("tool_out[0]", False)
+    await controller.write("tool_out[1]", True)
+
+async def open_grippers(controller):
+    # Activate gripper (open)
+    await controller.write("tool_out[1]", False)
+    await controller.write("tool_out[0]", True)
+
+
 @nova.program(
     id="start_here",  # Unique identifier of the program. If not provided, the function name will be used.
     name="Start Here",  # Readable name of the program
@@ -156,7 +190,6 @@ def audio_process(pcm):
         cleanup_controllers=False,
     ),
 )
-
 async def start():
     """Main robot control function."""
     async with Nova() as nova:
@@ -169,13 +202,14 @@ async def start():
         async with controller[0] as motion_group:
             home_joints = await motion_group.joints()
             tcp_names = await motion_group.tcp_names()
-            tcp = tcp_names[0]
-
+            #print(f"Available TCPs: {tcp_names}")
+            tcp = tcp_names[1]
+            #print(f"Using TCP: {tcp}")
             # Define poses
 
             # Define item list
             available_items = {
-                "coke": ["coke0", "coke1"],
+                "coke": ["coke1", "coke0"],
                 "redbull": ["redbull0", "redbull1"],
                 "fanta": ["fanta0"],
             }
@@ -189,13 +223,13 @@ async def start():
             }
 
             # Choose item
-            target_pose_name = available_items["fanta"].pop(0)
+            target_pose_name = available_items["coke"].pop(0)
             #hardcode for testing we need to get this from voice command
             #also show an error if pop fails and inventory is empty
-            target_pose = poses[target_pose_name]
+            target_pose = Pose((56.8, -304.2, 323.7, 2.7788, -1.4014, 0.011))
 
-            
-
+            # Initialize grippers to open state
+            await initialize_grippers(controller)
             # --- Move to pickup ---
             actions = [
                 cartesian_ptp(start_pose),
@@ -207,9 +241,12 @@ async def start():
             await motion_group.execute(joint_traj, tcp, actions=actions)
 
             # Activate gripper (close)
-            await controller.write("tool_out[1]", False)
-            await controller.write("tool_out[0]", True)
+            # await controller.write("tool_out[0]", False)
+            # await controller.write("tool_out[1]", True)
+            # await asyncio.sleep(3.0)
+            await close_grippers(controller)
             await asyncio.sleep(3.0)
+            exit()
 
             # --- Move to customer ---
             actions = [
@@ -221,8 +258,7 @@ async def start():
 
             # Release item (open gripper)
             await asyncio.sleep(2.0)
-            await controller.write("tool_out[0]", False)
-            await controller.write("tool_out[1]", True)
+            await open_grippers(controller)
             await asyncio.sleep(4.0)
 
             # --- Return home ---
@@ -231,7 +267,7 @@ async def start():
             ]
             joint_traj = await motion_group.plan(actions, tcp)
             await motion_group.execute(joint_traj, tcp, actions=actions)
-
+            await initialize_grippers(controller)
     
             print("Movement execution completed!")
 

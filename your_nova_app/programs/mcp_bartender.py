@@ -33,7 +33,7 @@ logging.basicConfig(stream=sys.stderr, level=logging.ERROR)
 logger = logging.getLogger(__name__)
 
 # --- CONFIGURATION ---
-CONTROLLER_NAME = "urdatta10"
+CONTROLLER_NAME = "ur5e"
 
 # Robot poses
 START_POSE = Pose((102.9, -505.6, 483.4, -1.496, -2.5662, 0.0903))
@@ -84,7 +84,7 @@ class RobotBartender:
             self.motion_group = await self.controller[0].__aenter__()
             
             tcp_names = await self.motion_group.tcp_names()
-            self.tcp = tcp_names[0]
+            self.tcp = tcp_names[1]
             
             # Move to start position
             logger.info("Moving to start position...")

@@ -34,7 +34,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 # --- CONFIGURATION ---
-controller_name = "urdatta10"
+controller_name = "ur5e"
 
 # Platform-specific Picovoice settings
 ACCESS_KEY_windows = "s5KKYJPIv04/59FCvVZ5TdPdeXAmlFd/HEQnRDP/BfFQTDAckHUhvg=="
@@ -47,8 +47,8 @@ COMMAND_CONTEXT_PATH_macbook = "/Users/sumalyodatta/Local Work/Wanlebots/workspa
 
 # Robot poses
 start_pose = Pose((102.9, -505.6, 483.4, -1.496, -2.5662, 0.0903))
-coke0 = Pose((-170.6, -609.6, 340, 2.7917, -1.4176, -0.0117))
-coke1 = Pose((-162.3, -501.4, 334.1, 2.7916, -1.4181, -0.0115))
+coke0 = Pose((56.8, -304.2, 323.7, 2.7788, -1.4014, 0.011))
+coke1 = Pose((56.8, -304.2, 323.7, 2.7788, -1.4014, 0.011))
 redbull0 = Pose((-64.4, -484.6, 332.3, 2.7873, -1.4154, 0.0118))
 redbull1 = Pose((-74.2, -606.2, 334.7, 2.7871, -1.4156, -0.0122))
 fanta0 = Pose((35.8, -313.2, 333.9, 2.7879, -1.4062, 0.0075))
@@ -151,6 +151,21 @@ class VoiceListener:
             logger.error(f"Error in voice listener: {e}")
             self.running = False
 
+async def initialize_grippers(controller):
+    """Function to initialize the grippers to open state."""
+    await controller.write("tool_out[0]", True)
+    await controller.write("tool_out[1]", False)
+    await controller.write("tool_out[0]", False)
+
+async def close_grippers(controller):
+    # Activate gripper (close)
+    await controller.write("tool_out[0]", False)
+    await controller.write("tool_out[1]", True)
+
+async def open_grippers(controller):
+    # Activate gripper (open)
+    await controller.write("tool_out[1]", False)
+    await controller.write("tool_out[0]", True)
 
 async def serve_beverage(
     beverage: str,
@@ -178,6 +193,11 @@ async def serve_beverage(
     logger.info(f"Serving {beverage} - {len(inventory[beverage])} remaining")
     
     try:
+        # Initialize grippers to open state
+        # await controller.write("tool_out[0]", True)
+        # await controller.write("tool_out[1]", False)
+        # await controller.write("tool_out[0]", False)
+        await initialize_grippers(controller)
         # --- Move to pickup ---
         logger.info(f"Moving to pick up {beverage}...")
         actions = [
@@ -190,8 +210,10 @@ async def serve_beverage(
         
         # Activate gripper (close)
         logger.info("Gripping beverage...")
-        await controller.write("tool_out[1]", False)
-        await controller.write("tool_out[0]", True)
+        # Activate gripper (close)
+        # await controller.write("tool_out[0]", False)
+        # await controller.write("tool_out[1]", True)
+        await close_grippers(controller)
         await asyncio.sleep(3.0)
         
         # --- Move to customer ---
@@ -206,8 +228,9 @@ async def serve_beverage(
         # Release item (open gripper)
         logger.info("Releasing beverage...")
         await asyncio.sleep(2.0)
-        await controller.write("tool_out[0]", False)
-        await controller.write("tool_out[1]", True)
+        # await controller.write("tool_out[1]", False)
+        # await controller.write("tool_out[0]", True)
+        await open_grippers(controller)
         await asyncio.sleep(4.0)
         
         # --- Return home ---
@@ -278,7 +301,7 @@ async def voice_bartender():
             
             async with controller[0] as motion_group:
                 tcp_names = await motion_group.tcp_names()
-                tcp = tcp_names[0]
+                tcp = tcp_names[1]
                 
                 # Move to start position
                 logger.info("Moving to start position...")
