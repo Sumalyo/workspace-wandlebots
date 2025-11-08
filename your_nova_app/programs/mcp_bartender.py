@@ -21,28 +21,27 @@ from mcp.types import Tool, TextContent
 
 from nova.actions import cartesian_ptp
 from nova.core.nova import Nova
+from nova.core.controller import Controller
 from nova.types import Pose
 
 # Configure logging to stderr (MCP requirement)
-# logging.basicConfig(
-#     level=logging.INFO,
-#     stream=sys.stderr,
-#     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-# )
 logging.basicConfig(stream=sys.stderr, level=logging.ERROR)
 logger = logging.getLogger(__name__)
 
 # --- CONFIGURATION ---
 CONTROLLER_NAME = "ur5e"
 
+# Gripper timing constants
+GRIPPER_DELAY = 3.0  # seconds to wait after gripper operation
+RELEASE_DELAY = 2.0  # seconds to wait before releasing
+
 # Robot poses
 START_POSE = Pose((102.9, -505.6, 483.4, -1.496, -2.5662, 0.0903))
 COKE_1 = Pose((56.8, -304.2, 323.7, 2.7788, -1.4014, 0.011))
 COKE_0 = Pose((56.8, -387.9, 323.7, 2.7788, -1.4013, 0.0111))
-#COKE_2 = Pose((56.8, -300.7, 323.7, 2.7785, -1.4013, 0.0111))
 REDBULL_0 = Pose((-30, -297.8, 320.9, 2.7793, -1.401, 0.0113))
 REDBULL_1 = Pose((-29, -385.3, 320.9, 2.779, -1.4015, 0.011))
-FANTA_0 = Pose((-119.5, -387.7, 321, 2.7789, -1.4012, 0.011)) #new!!
+FANTA_0 = Pose((-119.5, -387.7, 321, 2.7789, -1.4012, 0.011))
 CUSTOMER = Pose((103.9, -699.5, 631.4, 1.2941, 2.558, -0.8835))
 
 # Initial inventory
@@ -52,6 +51,49 @@ INITIAL_INVENTORY = {
     "fanta": [FANTA_0],
 }
 
+
+# --- Gripper Helper Functions ---
+
+async def initialize_grippers(controller: Controller) -> None:
+    """
+    Initialize grippers to open state.
+    
+    Args:
+        controller: Robot controller instance
+    """
+    logger.info("Initializing grippers to open state")
+    await controller.write("tool_out[0]", True)
+    await controller.write("tool_out[1]", False)
+    await controller.write("tool_out[0]", False)
+
+
+async def close_grippers(controller: Controller) -> None:
+    """
+    Close the grippers to grip an object.
+    
+    Args:
+        controller: Robot controller instance
+    """
+    logger.info("Closing grippers")
+    await controller.write("tool_out[0]", False)
+    await controller.write("tool_out[1]", True)
+    await asyncio.sleep(GRIPPER_DELAY)
+
+
+async def open_grippers(controller: Controller) -> None:
+    """
+    Open the grippers to release an object.
+    
+    Args:
+        controller: Robot controller instance
+    """
+    logger.info("Opening grippers")
+    await controller.write("tool_out[1]", False)
+    await controller.write("tool_out[0]", True)
+    await asyncio.sleep(GRIPPER_DELAY)
+
+
+# --- Main Bartender Class ---
 
 class RobotBartender:
     """Manages robot state and beverage serving operations."""
@@ -86,6 +128,9 @@ class RobotBartender:
             
             tcp_names = await self.motion_group.tcp_names()
             self.tcp = tcp_names[1]
+            
+            # Initialize grippers to open state
+            await initialize_grippers(self.controller)
             
             # Move to start position
             logger.info("Moving to start position...")
@@ -129,7 +174,7 @@ class RobotBartender:
         try:
             logger.info(f"Serving {beverage} ({remaining} remaining)...")
             
-            # Move to pickup
+            # Move to pickup position
             actions = [
                 cartesian_ptp(START_POSE),
                 cartesian_ptp(target_pose @ (0, 0, -70, 0, 0, 0)),
@@ -138,10 +183,8 @@ class RobotBartender:
             joint_traj = await self.motion_group.plan(actions, self.tcp)
             await self.motion_group.execute(joint_traj, self.tcp, actions=actions)
             
-            # Grip
-            await self.controller.write("tool_out[1]", False)
-            await self.controller.write("tool_out[0]", True)
-            await asyncio.sleep(3.0)
+            # Close grippers to grip beverage
+            await close_grippers(self.controller)
             
             # Deliver to customer
             actions = [
@@ -151,11 +194,11 @@ class RobotBartender:
             joint_traj = await self.motion_group.plan(actions, self.tcp)
             await self.motion_group.execute(joint_traj, self.tcp, actions=actions)
             
-            # Release
-            await asyncio.sleep(2.0)
-            await self.controller.write("tool_out[0]", False)
-            await self.controller.write("tool_out[1]", True)
-            await asyncio.sleep(4.0)
+            # Wait before releasing
+            await asyncio.sleep(RELEASE_DELAY)
+            
+            # Open grippers to release beverage
+            await open_grippers(self.controller)
             
             # Return home
             actions = [cartesian_ptp(START_POSE)]
@@ -167,7 +210,7 @@ class RobotBartender:
         except Exception as e:
             logger.error(f"Error serving {beverage}: {e}")
             
-            # Try to recover
+            # Try to recover by going home
             try:
                 actions = [cartesian_ptp(START_POSE)]
                 joint_traj = await self.motion_group.plan(actions, self.tcp)
