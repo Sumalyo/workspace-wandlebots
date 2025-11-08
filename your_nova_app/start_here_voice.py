@@ -37,11 +37,11 @@ logger = logging.getLogger(__name__)
 controller_name = "ur5e"
 
 # Platform-specific Picovoice settings
-ACCESS_KEY_windows = "s5KKYJPIv04/59FCvVZ5TdPdeXAmlFd/HEQnRDP/BfFQTDAckHUhvg=="
+ACCESS_KEY_windows = ""
 WAKE_WORD_PATH_windows = "/Users/sumalyodatta/Local Work/Wanlebots/workspace-wandlebots/your_nova_app/windows/Felix_en_mac_v3_0_0.ppn"
 COMMAND_CONTEXT_PATH_windows = "/Users/sumalyodatta/Local Work/Wanlebots/workspace-wandlebots/your_nova_app/windows/bartender_en_mac_v3_0_0.rhn"
 
-ACCESS_KEY_macbook = "vTLczUgJU2TJvrnELUiFPuEAwPX/HdATIwIPy9a4YgRQJ4LmcD31tA=="
+ACCESS_KEY_macbook = ""
 WAKE_WORD_PATH_macbook = "/Users/sumalyodatta/Local Work/Wanlebots/workspace-wandlebots/your_nova_app/macos/Felix_en_mac_v3_0_0.ppn"
 COMMAND_CONTEXT_PATH_macbook = "/Users/sumalyodatta/Local Work/Wanlebots/workspace-wandlebots/your_nova_app/macos/bartender_en_mac_v3_0_0.rhn"
 
