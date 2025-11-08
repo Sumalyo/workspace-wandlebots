@@ -59,6 +59,7 @@ customer = Pose((103.9, -699.5, 631.4, 1.2941, 2.558, -0.8835))
 INVENTORY = {
     "coke": [coke0, coke1],
     "redbull": [redbull0, redbull1],
+    "red bull": [redbull0, redbull1],
     "fanta": [fanta0],
     "sting": [redbull0, redbull1],  # Assuming "sting" uses redbull poses
 }
