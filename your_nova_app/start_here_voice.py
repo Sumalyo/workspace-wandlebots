@@ -47,8 +47,9 @@ COMMAND_CONTEXT_PATH_macbook = "/Users/sumalyodatta/Local Work/Wanlebots/workspa
 
 # Robot poses
 start_pose = Pose((102.9, -505.6, 483.4, -1.496, -2.5662, 0.0903))
-coke0 = Pose((56.8, -304.2, 323.7, 2.7788, -1.4014, 0.011))
-coke1 = Pose((56.8, -387.9, 323.7, 2.7788, -1.4013, 0.0111))
+coke1 = Pose((56.8, -304.2, 323.7, 2.7788, -1.4014, 0.011))
+coke0 = Pose((56.8, -387.9, 323.7, 2.7788, -1.4013, 0.0111))
+#coke2 = Pose((56.8, -300.7, 323.7, 2.7785, -1.4013, 0.0111))
 redbull0 = Pose((-30, -297.8, 320.9, 2.7793, -1.401, 0.0113))
 redbull1 = Pose((-29, -385.3, 320.9, 2.779, -1.4015, 0.011))
 fanta0 = Pose((-119.5, -387.7, 321, 2.7789, -1.4012, 0.011)) #new!!
@@ -219,7 +220,7 @@ async def serve_beverage(
         # --- Move to customer ---
         logger.info("Delivering to customer...")
         actions = [
-            cartesian_ptp(target_pose @ (0, 0, -70, 0, 0, 0)),
+            cartesian_ptp(target_pose @ (0, 0, -200, 0, 0, 0)),
             cartesian_ptp(customer),
         ]
         joint_traj = await motion_group.plan(actions, tcp)

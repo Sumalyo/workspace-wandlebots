@@ -37,8 +37,9 @@ CONTROLLER_NAME = "ur5e"
 
 # Robot poses
 START_POSE = Pose((102.9, -505.6, 483.4, -1.496, -2.5662, 0.0903))
-COKE_0 = Pose((56.8, -304.2, 323.7, 2.7788, -1.4014, 0.011))
-COKE_1 = Pose((56.8, -387.9, 323.7, 2.7788, -1.4013, 0.0111))
+COKE_1 = Pose((56.8, -304.2, 323.7, 2.7788, -1.4014, 0.011))
+COKE_0 = Pose((56.8, -387.9, 323.7, 2.7788, -1.4013, 0.0111))
+#COKE_2 = Pose((56.8, -300.7, 323.7, 2.7785, -1.4013, 0.0111))
 REDBULL_0 = Pose((-30, -297.8, 320.9, 2.7793, -1.401, 0.0113))
 REDBULL_1 = Pose((-29, -385.3, 320.9, 2.779, -1.4015, 0.011))
 FANTA_0 = Pose((-119.5, -387.7, 321, 2.7789, -1.4012, 0.011)) #new!!
@@ -144,7 +145,7 @@ class RobotBartender:
             
             # Deliver to customer
             actions = [
-                cartesian_ptp(target_pose @ (0, 0, -70, 0, 0, 0)),
+                cartesian_ptp(target_pose @ (0, 0, -200, 0, 0, 0)),
                 cartesian_ptp(CUSTOMER),
             ]
             joint_traj = await self.motion_group.plan(actions, self.tcp)
